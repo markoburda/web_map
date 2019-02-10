@@ -6,6 +6,9 @@ from geopy.exc import GeocoderTimedOut
 
 
 def locate(year):
+    """
+    Creates map with different layers and saves into html file
+    """
     geolocator = geocoders.Bing("AvTwq-4RAgtYf7_QjeCylW_rnqmA_FLYOUte8pWYNK19EhWbAbve6A-FMvgDRL4t", timeout=None)
     map = folium.Map(location=[48.314775, 25.082925], zoom_start=2)
     fg_fs = folium.FeatureGroup(name = "Films in " + year)
@@ -21,18 +24,17 @@ def locate(year):
         for row in reader:
             print(row[0], row[1])
             location = geolocator.geocode(row[2])
-            fg_fs.add_child(folium.Marker(location = [location.latitude, location.longitude], popup = row[0]))
+            fg_fs.add_child(folium.Marker(location=[location.latitude, location.longitude], popup=row[0]))
     map.add_child(fg_fs)
     map.add_child(fg_pn)
     map.add_child(folium.LayerControl())
     map.save('map.html')
-    return True
 
 
 try:
     year = input("Year: ")
     sort('locations.list', year)
-    print(locate(year))
+    locate(year)
 except GeocoderTimedOut as err:
     pass
 except AttributeError as err:

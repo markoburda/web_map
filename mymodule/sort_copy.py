@@ -1,6 +1,10 @@
 import re
 
+
 def sort(file, year):
+    """
+    Converts IMDB database to csv file for parsing
+    """
     f = open(file).readlines()
     f = f[14:1241786]
     with open('locations.csv', mode='w') as out:
